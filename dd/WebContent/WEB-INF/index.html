@@ -1,0 +1,42 @@
+<head>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="knockout-2.2.0.js"></script>
+
+</head>
+<html>
+<body class="codeRunner">
+	<p>
+		Your contact: <select
+			data-bind="options: availableContacts, optionsText: 'id', value: selectedContact, optionsCaption: 'Choose...'"></select>
+	</p>
+	<div data-bind="visible: selectedContact">
+		<!-- Appears when you select something -->
+		You have chosen a contact with firstname <span
+			data-bind="text: selectedContact() ? selectedContact().id : 'unknown'"></span>.
+		<p>
+			<input
+				data-bind="value: selectedContact() ? selectedContact().id : 'unknown'" />
+			<input
+				data-bind="value: selectedContact() ? selectedContact().firstname : 'unknown'" />
+		<p>
+	</div>
+
+	<script type='text/javascript'>
+		(function() { // Wrap in function to prevent accidental globals
+			// Constructor for an object with two properties
+
+			htmlobj = $.ajax({
+				url : "/dd/SrvLoadAllContacts",
+				async : false
+			});
+			var contacts = eval(htmlobj.responseText);
+			var viewModel = {
+				availableContacts : ko.observableArray(contacts),
+				selectedContact : ko.observable()
+			// Nothing selected by default
+			};
+			ko.applyBindings(viewModel);
+		})();
+	</script>
+</body>
+</html>
