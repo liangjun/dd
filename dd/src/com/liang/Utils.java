@@ -1,5 +1,7 @@
 package com.liang;
 
+import java.lang.reflect.Type;
+import java.util.Map;
 import java.util.UUID;
 
 import javax.naming.Context;
@@ -7,6 +9,7 @@ import javax.naming.InitialContext;
 import javax.sql.DataSource;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 public class Utils {
 
@@ -35,7 +38,7 @@ public class Utils {
 	public static DataSource getDataSource(){
 	    try {  
 	        Context ctx = new InitialContext();  
-	        DataSource ds = (DataSource) ctx.lookup("java:comp/env/jdbc/DBPool");//¹Ì¶¨²ÎÊý  
+	        DataSource ds = (DataSource) ctx.lookup("java:comp/env/jdbc/DBPool");//ï¿½Ì¶ï¿½ï¿½ï¿½ï¿½ï¿½  
 	        return ds;  
 	    } catch (Exception e) {  
 	        e.printStackTrace();  
@@ -67,7 +70,6 @@ public class Utils {
 //			List<Contact> Contacts = run.query("SELECT * FROM Contact", h);
 //			return;
 
-		
 	}
 	
 	public static String[] getGuids()
@@ -82,6 +84,16 @@ public class Utils {
 	
 	public static String getGuid(){
 		return UUID.randomUUID().toString();
+	}
+	
+	public static Object getValueFromJsonStr(String jsonStr,String key){
+		Utils.showTime("begin");
+		
+		Gson gson = new Gson();
+		Type type=  new TypeToken<Map<String, String>>(){}.getType();
+		Map<String, Object> map = gson.fromJson(jsonStr, type);
+		Utils.showTime("getValueFromJson end");
+		return map.get(key).toString();
 	}
 	
 

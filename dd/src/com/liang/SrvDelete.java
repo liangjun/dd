@@ -2,7 +2,6 @@ package com.liang;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.lang.reflect.Type;
 import java.sql.SQLException;
 
 import javax.servlet.ServletException;
@@ -11,20 +10,17 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-
 /**
- * Servlet implementation class GetContact
+ * Servlet implementation class SrvDelete
  */
-@WebServlet("/SrvUpdateContact")
-public class SrvUpdateContact extends HttpServlet {
+@WebServlet("/SrvDelete")
+public class SrvDelete extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public SrvUpdateContact() {
+    public SrvDelete() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -33,10 +29,19 @@ public class SrvUpdateContact extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		this.doPost(request, response);
+	}
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		Utils.showTime("begin");
 		//response.setContentType("text/html;charset=utf-8");
 		request.setCharacterEncoding("utf-8");
+		String func = request.getParameter("func").toString() ;
 		BufferedReader br = request.getReader();
+		
 		
 		
 		String lines;
@@ -49,31 +54,28 @@ public class SrvUpdateContact extends HttpServlet {
         String s = sb.toString();
         System.out.println(s);
         
-		Gson gson = new Gson();
+		String id = Utils.getValueFromJsonStr(s, "id").toString(); 
 		
-		Type type = new TypeToken<Contact>(){}.getType(); 
-		
-		Contact c = gson.fromJson(s, type);
-		
-		
-		
-		Controller cc = new Controller();
-		try {
-			cc.UpdateContact(c);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		switch(func) {
 
-		Utils.showTime("SrvSaveContact end");
-	}
+	        case "Controller.DeleteContact":
+	    		Controller cc = new Controller();
+	    		try {
+	    			cc.DeleteContact(id);
+	    		} catch (SQLException e) {
+	    			// TODO Auto-generated catch block
+	    			e.printStackTrace();
+	    		}
+	            break;
+	}	
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		this.doGet(request, response);   
+		
+		
+		
+
+		Utils.showTime("SrvDelete end");
+	
 	}
+	
 
 }

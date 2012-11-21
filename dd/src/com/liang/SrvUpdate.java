@@ -15,16 +15,16 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 /**
- * Servlet implementation class SrvInsertContacts
+ * Servlet implementation class SrvUpdate
  */
-@WebServlet("/SrvInsertContact")
-public class SrvInsertContact extends HttpServlet {
+@WebServlet("/SrvUpdate")
+public class SrvUpdate extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public SrvInsertContact() {
+    public SrvUpdate() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -33,10 +33,18 @@ public class SrvInsertContact extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		this.doPost(request, response);
+	}
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		Utils.showTime("begin");
+		//response.setContentType("text/html;charset=utf-8");
 		request.setCharacterEncoding("utf-8");
+		String func = request.getParameter("func").toString() ;
 		BufferedReader br = request.getReader();
-		
 		
 		String lines;
         StringBuffer sb = new StringBuffer("");
@@ -46,31 +54,42 @@ public class SrvInsertContact extends HttpServlet {
         }		
 		
         String s = sb.toString();
+        System.out.println(s);
         
 		Gson gson = new Gson();
 		
 		Type type = new TypeToken<Contact>(){}.getType(); 
 		
-		Contact c = gson.fromJson(s, type);
+		Contact c = gson.fromJson(s, type);		
 		
-		System.out.println(s);
+		switch(func) {
+	        case "Controller.UpdateContact":
+	    		Controller cc = new Controller();
+	    		try {
+	    			cc.UpdateContact(c);
+	    		} catch (SQLException e) {
+	    			// TODO Auto-generated catch block
+	    			e.printStackTrace();
+	    		}
+	
+	            break;
+	        case "Controller.InsertContact":
+	    		Controller cc1 = new Controller();
+	    		try {
+	    			cc1.InsertContact(c);
+	    		} catch (SQLException e) {
+	    			// TODO Auto-generated catch block
+	    			e.printStackTrace();
+	    		}
+	
+	            break;
+	}	
+
 		
-		Controller cc = new Controller();
-		try {
-			cc.InsertContact(c);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		
+		
 
-		Utils.showTime("SrvInsertContact end");
-	}
-
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		this.doGet(request, response);   
+		Utils.showTime("SrvUpdate end");
 	}
 
 }
