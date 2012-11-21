@@ -54,12 +54,13 @@ public class SrvDelete extends HttpServlet {
         String s = sb.toString();
         System.out.println(s);
         
-		String id = Utils.getValueFromJsonStr(s, "id").toString(); 
+		//String id = Utils.getValueFromJsonStr(s, "id").toString(); 
 		
 		switch(func) {
 
 	        case "Controller.DeleteContact":
 	    		Controller cc = new Controller();
+	    		String id = request.getParameter("id").toString() ;
 	    		try {
 	    			cc.DeleteContact(id);
 	    		} catch (SQLException e) {
