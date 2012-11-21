@@ -39,11 +39,13 @@ public class Controller {
 		    		"lastname=?," +
 		    		"phone=?," +
 		    		"email=? " +
+		    		"parentId=? " +
 		    		"WHERE id=?",
 	               c.getFirstname(),
 	               c.getLastname(),
 	               c.getPhone(),
 	               c.getEmail(),
+	               c.getParentId(),
 	               c.getId()
 	                           );
 	}
@@ -63,11 +65,13 @@ public class Controller {
 	    		"lastname," +
 	    		"phone," +
 	    		"email," +
-	    		"id) values (?,?,?,?,?)",
+	    		"parentId," +
+	    		"id) values (?,?,?,?,?,?)",
 	               c.getFirstname(),
 	               c.getLastname(),
 	               c.getPhone(),
 	               c.getEmail(),
+	               c.getParentId(),
 	               c.getId()
 	               );
 	}

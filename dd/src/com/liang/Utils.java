@@ -1,6 +1,9 @@
 package com.liang;
 
+import java.io.BufferedReader;
+import java.io.IOException;
 import java.lang.reflect.Type;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
@@ -62,14 +65,11 @@ public class Utils {
 //	}
 	
 	public static void test() {
-
-//			DataSource ds = Utils.getDataSource();
-//
-//			QueryRunner run = new QueryRunner(ds);
-//			ResultSetHandler<List<Contact>> h = new BeanListHandler<Contact>(Contact.class);
-//			List<Contact> Contacts = run.query("SELECT * FROM Contact", h);
-//			return;
-
+		HashMap<String, String> hash = new HashMap<String, String>() ;
+		hash.put("cc", "aaaaa");
+		System.out.print(hash.get("cc"));
+		
+		//System.out.print("{\"product\":\"pencil\",\"price\":12,\"item\":[{\"id\":1,\"name\":\"chen\"}]}");
 	}
 	
 	public static String[] getGuids()
@@ -94,6 +94,16 @@ public class Utils {
 		Map<String, Object> map = gson.fromJson(jsonStr, type);
 		Utils.showTime("getValueFromJson end");
 		return map.get(key).toString();
+	}
+	
+	public static String getBufferedString(BufferedReader br) throws IOException{
+		String lines;
+        StringBuffer sb = new StringBuffer();
+        while ((lines = br.readLine()) != null) {
+            lines = new String(lines.getBytes());
+            sb.append(lines);
+        }		
+		return sb.toString();
 	}
 	
 

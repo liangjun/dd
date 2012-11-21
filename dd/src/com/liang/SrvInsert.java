@@ -41,33 +41,22 @@ public class SrvInsert extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		Utils.showTime("begin");
-		//response.setContentType("text/html;charset=utf-8");
 		request.setCharacterEncoding("utf-8");
 		String func = request.getParameter("func").toString() ;
-		BufferedReader br = request.getReader();
-		
-		String lines;
-        StringBuffer sb = new StringBuffer("");
-        while ((lines = br.readLine()) != null) {
-            lines = new String(lines.getBytes(), "utf-8");
-            sb.append(lines);
-        }		
-		
-        String s = sb.toString();
+        String s = Utils.getBufferedString(request.getReader());
         System.out.println(s);
         
 		Gson gson = new Gson();
-		
-		Type type = new TypeToken<Contact>(){}.getType(); 
-		
-		Contact c = gson.fromJson(s, type);		
+		Type type;
 		
 		switch(func) {
 
 	        case "Controller.InsertContact":
+	    		type = new TypeToken<Contact>(){}.getType(); 
+	    		Contact c1 = gson.fromJson(s, type);
 	    		Controller cc1 = new Controller();
 	    		try {
-	    			cc1.InsertContact(c);
+	    			cc1.InsertContact(c1);
 	    		} catch (SQLException e) {
 	    			// TODO Auto-generated catch block
 	    			e.printStackTrace();
