@@ -1,6 +1,5 @@
 package com.liang;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.sql.SQLException;

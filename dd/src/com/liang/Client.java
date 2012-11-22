@@ -7,7 +7,7 @@ public class Client {
 	private String name;
 	private List<Contact> contacts;
 	
-	public String getId() {
+	public String getId() { 
 		return id; 
 	}
 	public void setId(String id) {
